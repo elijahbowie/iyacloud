@@ -166,7 +166,7 @@ export class AutoScreenshotSystem {
     });
 
     // Capture on significant DOM changes (debounced)
-    let domChangeTimeout: NodeJS.Timeout;
+    let domChangeTimeout: ReturnType<typeof setTimeout>;
     const observer = new MutationObserver(() => {
       if (this.enabled) {
         clearTimeout(domChangeTimeout);

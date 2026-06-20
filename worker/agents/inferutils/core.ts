@@ -581,10 +581,12 @@ export class AbortError extends InferError {
 }
 
 const claude_thinking_budget_tokens = {
+    none: 0,
+    minimal: 1000,
+    low: 4000,
     medium: 8000,
     high: 16000,
-    low: 4000,
-    minimal: 1000,
+    xhigh: 32000,
 };
 
 export type InferResponseObject<OutputSchema extends z.ZodObject> = {

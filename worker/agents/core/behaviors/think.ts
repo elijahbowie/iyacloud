@@ -247,7 +247,12 @@ export class ThinkCodingBehavior
 				apiKey: conf.apiKey,
 				modelName,
 				headers: Object.keys(headers).length > 0 ? headers : undefined,
-				useStoredKeys: usesStoredKeys,
+				// Workers AI via the gateway /compat endpoint authenticates with the
+				// platform CF token sent as `Authorization: Bearer ...`; it does not
+				// use gateway-stored provider keys. Dropping that header (the
+				// stored-keys path) makes Workers AI reject the request with a 10000
+				// Authentication error, so keep it for this provider.
+				useStoredKeys: aiModelConfig.provider === 'workers-ai' ? false : usesStoredKeys,
 			},
 			systemPrompt: this.buildSystemPrompt(modelName, aiModelConfig.provider),
 			previewUrl: await this.getBrowserPreviewURL().catch(() => undefined),
@@ -289,11 +294,12 @@ export class ThinkCodingBehavior
 			'If the request is already clear and specific, skip this and go straight to building.',
 			'',
 			'## Deploy & verify workflow (VibeSDK-specific)',
-			'Once you are actively building (the scope is clear or the user confirmed), this app is previewed on Cloudflare Workers via SpaceDO — there is no shell. In a building turn, do NOT end after only writing files:',
+			'Once you are actively building (the scope is clear or the user confirmed), this app is previewed on Cloudflare Workers via SpaceDO. In a building turn, do NOT end after only writing files:',
 			'1. After writing or editing files, call `deploy_space` to commit and deploy so the preview rebuilds.',
 			'2. Then call `get_browser_console_logs` to inspect the running preview for client-side errors (JS exceptions, failed fetches, missing assets, hydration errors).',
-			'3. If the deploy reports build errors or the console shows errors, fix the code and repeat from step 1 until the deploy succeeds and the console is clean.',
-			'A building turn should finish with a successful `deploy_space` and a clean `get_browser_console_logs` check.',
+			'3. For real toolchain verification, use `run_command` — a full Linux sandbox container preloaded with your files. Run `bun install`, `bun run build`, `tsc --noEmit`, or `bun test` and read the real stdout/stderr/exitCode. Prefer this over guessing when a build or type error is unclear.',
+			'4. If the deploy reports build errors, `run_command` fails, or the console shows errors, fix the code and repeat from step 1 until the deploy succeeds, the build/tests pass, and the console is clean.',
+			'A building turn should finish with a successful `deploy_space`, a passing `run_command` build/typecheck, and a clean `get_browser_console_logs` check.',
 		].join('\n');
 	}
 

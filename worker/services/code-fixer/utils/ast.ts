@@ -31,14 +31,8 @@ export function getDefaultParseOptions(): ParserOptions {
             'typescript',
             'jsx',
             'decorators-legacy',
-            'classProperties',
-            'objectRestSpread',
             'functionBind',
             'exportDefaultFrom',
-            'exportNamespaceFrom',
-            'dynamicImport',
-            'nullishCoalescingOperator',
-            'optionalChaining',
             'importMeta'
         ],
     };

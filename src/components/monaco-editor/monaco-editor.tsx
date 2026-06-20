@@ -1,5 +1,6 @@
 import React, { memo, useEffect, useRef } from 'react';
 import * as monaco from 'monaco-editor';
+import { typescript as monacoTypescript } from 'monaco-editor';
 import { useTheme } from '../../contexts/theme-context';
 
 import 'monaco-editor/esm/vs/editor/editor.all.js';
@@ -147,8 +148,8 @@ export const MonacoEditor = memo<MonacoEditorProps>(function MonacoEditor({
 
 	// Configure TypeScript diagnostics based on mode
 	useEffect(() => {
-		const tsDefaults = monaco.languages.typescript.typescriptDefaults;
-		const jsDefaults = monaco.languages.typescript.javascriptDefaults;
+		const tsDefaults = monacoTypescript.typescriptDefaults;
+		const jsDefaults = monacoTypescript.javascriptDefaults;
 
 		if (shouldEnableTypeScript) {
 			// Enable full IntelliSense for editing
@@ -157,13 +158,13 @@ export const MonacoEditor = memo<MonacoEditorProps>(function MonacoEditor({
 				noSyntaxValidation: false,
 			});
 			tsDefaults.setCompilerOptions({
-				jsx: monaco.languages.typescript.JsxEmit.React,
+				jsx: monacoTypescript.JsxEmit.React,
 				allowJs: true,
 				allowSyntheticDefaultImports: true,
 				esModuleInterop: true,
-				moduleResolution: monaco.languages.typescript.ModuleResolutionKind.NodeJs,
-				module: monaco.languages.typescript.ModuleKind.ESNext,
-				target: monaco.languages.typescript.ScriptTarget.ESNext,
+				moduleResolution: monacoTypescript.ModuleResolutionKind.NodeJs,
+				module: monacoTypescript.ModuleKind.ESNext,
+				target: monacoTypescript.ScriptTarget.ESNext,
 				jsxFactory: 'React.createElement',
 				jsxFragmentFactory: 'React.Fragment',
 			});
@@ -171,10 +172,10 @@ export const MonacoEditor = memo<MonacoEditorProps>(function MonacoEditor({
 				allowJs: true,
 				allowSyntheticDefaultImports: true,
 				esModuleInterop: true,
-				jsx: monaco.languages.typescript.JsxEmit.React,
-				moduleResolution: monaco.languages.typescript.ModuleResolutionKind.NodeJs,
-				module: monaco.languages.typescript.ModuleKind.ESNext,
-				target: monaco.languages.typescript.ScriptTarget.ESNext,
+				jsx: monacoTypescript.JsxEmit.React,
+				moduleResolution: monacoTypescript.ModuleResolutionKind.NodeJs,
+				module: monacoTypescript.ModuleKind.ESNext,
+				target: monacoTypescript.ScriptTarget.ESNext,
 				jsxFactory: 'React.createElement',
 				jsxFragmentFactory: 'React.Fragment',
 			});
@@ -185,12 +186,12 @@ export const MonacoEditor = memo<MonacoEditorProps>(function MonacoEditor({
 				noSyntaxValidation: true,
 			});
 			tsDefaults.setCompilerOptions({
-				jsx: monaco.languages.typescript.JsxEmit.React,
-				target: monaco.languages.typescript.ScriptTarget.ESNext,
+				jsx: monacoTypescript.JsxEmit.React,
+				target: monacoTypescript.ScriptTarget.ESNext,
 			});
 			jsDefaults.setCompilerOptions({
-				jsx: monaco.languages.typescript.JsxEmit.React,
-				target: monaco.languages.typescript.ScriptTarget.ESNext,
+				jsx: monacoTypescript.JsxEmit.React,
+				target: monacoTypescript.ScriptTarget.ESNext,
 			});
 		}
 	}, [shouldEnableTypeScript]);

@@ -4,7 +4,7 @@
  */
  {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "vibesdk-production",
+	"name": "iyacloud",
 	"main": "worker/index.ts",
 	// Facets (durable-object-facets) require a recent compat date — bumped
 	// from 2025-08-10 to enable `ctx.facets.get()` for space-generated
@@ -73,7 +73,7 @@
     "dispatch_namespaces": [
         {
             "binding": "DISPATCHER",
-            "namespace": "vibesdk-default-namespace",
+            "namespace": "iyacloud-apps",
             "remote": true
         }
     ],
@@ -83,13 +83,9 @@
 			"image": "./SandboxDockerfile",
             // "image": "registry.cloudflare.com/vibesdk-production-userappsandboxservice:cfe197fc",
             // Altering max_instances value will have no effect. Please use the MAX_SANDBOX_INSTANCES var instead.
-			"max_instances": 1400,
+			"max_instances": 10,
             // ATTENTION: Altering instance_type value will have no effect. Please use the SANDBOX_INSTANCE_TYPE var instead.
-            "instance_type": {
-                "vcpu": 4,
-                "memory_mib": 8192,
-                "disk_mb": 10240
-            },
+            "instance_type": "standard-3",
             "rollout_step_percentage": 100,
 			"ssh": {
 				"enabled": true
@@ -99,8 +95,8 @@
 	"d1_databases": [
 		{
 			"binding": "DB",
-			"database_name": "vibesdk-db",
-			"database_id": "c4721a2b-b96a-428a-8b2a-b3d255b307e9",
+			"database_name": "iyacloud-db",
+			"database_id": "9b3a46db-ef65-4124-a741-8c554d9383b0",
 			"migrations_dir": "migrations"
 		}
 	],
@@ -140,13 +136,13 @@
     "r2_buckets": [
       {
         "binding": "TEMPLATES_BUCKET",
-        "bucket_name": "vibesdk-templates"
+        "bucket_name": "iyacloud-templates"
       }
     ],
     "kv_namespaces": [
         {
             "binding": "VibecoderStore",
-            "id": "f066f3c2e4824981b48e8586c04db9c1"
+            "id": "1f1103724b5d4f3e87a23628a02fefa0"
         }
     ],
     // "placement": {
@@ -184,24 +180,10 @@
             ],
             "tag": "v6"
         }
-	],
-	"routes": [
-        {
-            "pattern": "build.cloudflare.dev",
-            "custom_domain": true
-        },
-        {
-            "pattern": "*build-preview.cloudflare.dev/*",
-            "custom_domain": false,
-            "zone_id": "db01fac4261b2604aacad8410443a3e2"
-        }
     ],
 	"vars": {
-        "TEMPLATES_REPOSITORY": "https://github.com/cloudflare/vibesdk-templates",
         "ALLOWED_EMAIL": "",
-        "DISPATCH_NAMESPACE": "vibesdk-default-namespace",
         "ENABLE_READ_REPLICAS": "true",
-        "CLOUDFLARE_AI_GATEWAY": "vibesdk-gateway",
         "PLATFORM_CAPABILITIES": {
             "features": {
                 "app": {
@@ -216,12 +198,21 @@
             },
             "version": "1.0.0"
         },
-        "CUSTOM_DOMAIN": "",
-        "MAX_SANDBOX_INSTANCES": "10",
-        "SANDBOX_INSTANCE_TYPE": "standard-3",
+        "CUSTOM_DOMAIN": "iyagent.com",
         "DEV_BROWSER_SIDECAR_URL": "http://127.0.0.1:9223",
-        "DEV_BROWSER_PREVIEW_ORIGIN": "http://localhost:5173"
+        "DEV_BROWSER_PREVIEW_ORIGIN": "http://localhost:5173",
+        "TEMPLATES_REPOSITORY": "https://github.com/cloudflare/vibesdk-templates",
+        "DISPATCH_NAMESPACE": "iyacloud-apps",
+        "CLOUDFLARE_AI_GATEWAY": "iyacloud-gateway",
+        "MAX_SANDBOX_INSTANCES": "10",
+        "SANDBOX_INSTANCE_TYPE": "standard-3"
     },
+    // Main app on the apex; sandbox preview URLs ({port}-{id}-{token}.iyagent.com)
+    // are served via the proxied *.iyagent.com wildcard route.
+    "routes": [
+        { "pattern": "iyagent.com", "custom_domain": true },
+        { "pattern": "*iyagent.com/*", "zone_id": "5e619679ba89433f868723b0b08a8c88" }
+    ],
 	"workers_dev": false,
 	"preview_urls": false
 }

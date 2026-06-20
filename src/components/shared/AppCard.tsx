@@ -14,7 +14,7 @@ import {
 	Cloud,
 	CloudOff,
 	Loader2,
-	Github,
+	GitBranch,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { formatDistanceToNow } from 'date-fns';
@@ -616,7 +616,7 @@ export const AppCard = React.memo<AppCardProps>(
 												title={`View on GitHub (${app.githubRepositoryVisibility || 'public'})`}
 												aria-label="View repository on GitHub"
 											>
-												<Github className="w-4 h-4 text-gray-600 dark:text-gray-400 group-hover/github:text-gray-800 dark:group-hover/github:text-gray-200 transition-colors" />
+												<GitBranch className="w-4 h-4 text-gray-600 dark:text-gray-400 group-hover/github:text-gray-800 dark:group-hover/github:text-gray-200 transition-colors" />
 											</button>
 										)}
 								</div>

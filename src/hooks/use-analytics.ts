@@ -8,7 +8,7 @@ export function useUserAnalytics(userId?: string, days?: number, autoRefresh = f
   const [analytics, setAnalytics] = useState<UserAnalyticsResponseData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const effectiveUserId = userId || user?.id;
 
@@ -59,7 +59,7 @@ export function useAgentAnalytics(agentId: string, days?: number, autoRefresh = 
   const [analytics, setAnalytics] = useState<AgentAnalyticsResponseData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const fetchAnalytics = useCallback(async () => {
     if (!isAuthenticated || !agentId) {

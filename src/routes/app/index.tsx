@@ -22,7 +22,6 @@ import {
 	Bookmark,
 	Globe,
 	Trash2,
-	Github,
 	GitBranch,
 } from 'lucide-react';
 import { MonacoEditor } from '@/components/monaco-editor/monaco-editor';
@@ -639,7 +638,7 @@ export default function AppView() {
 										className={cn('gap-2 text-text-primary')}
 										title={`View on GitHub (${app.githubRepositoryVisibility || 'public'})`}
 									>
-										<Github className="h-4 w-4" />
+										<GitBranch className="h-4 w-4" />
 										View on GitHub
 										{app.githubRepositoryVisibility ===
 											'private' && (

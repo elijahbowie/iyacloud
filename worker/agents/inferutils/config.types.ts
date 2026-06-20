@@ -337,6 +337,20 @@ const MODELS_MASTER = {
             creditCost: 8, // $0.22
             contextSize: 262144, // 256K Context
         },
+    },
+    // --- Cloudflare Workers AI ---
+    // Routed through the AI Gateway OpenAI-compatible (/compat) endpoint as
+    // provider `workers-ai`; the full id is sent as the model name.
+    KIMI_K2_7_CODE: {
+        id: 'workers-ai/@cf/moonshotai/kimi-k2.7-code',
+        config: {
+            name: 'Kimi K2.7 Code (Workers AI)',
+            size: ModelSize.LITE,
+            provider: 'workers-ai',
+            creditCost: 1,
+            contextSize: 256000, // 256K Context
+            nonReasoning: true,
+        }
     }
 } as const;
 

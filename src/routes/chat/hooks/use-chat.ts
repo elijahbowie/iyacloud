@@ -83,11 +83,11 @@ export function useChat({
 	const connectionStatus = useRef<'idle' | 'connecting' | 'connected' | 'failed' | 'retrying'>('idle');
 	const retryCount = useRef(0);
 	const maxRetries = 5;
-	const retryTimeouts = useRef<NodeJS.Timeout[]>([]);
+	const retryTimeouts = useRef<ReturnType<typeof setTimeout>[]>([]);
 	// Track whether component is mounted and should attempt reconnects
 	const shouldReconnectRef = useRef(true);
 	// Track deployment timeout for cleanup
-	const deploymentTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+	const deploymentTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 	// Track the latest connection attempt to avoid handling stale socket events
 	const connectAttemptIdRef = useRef(0);
 	const connectWithRetryRef = useRef<

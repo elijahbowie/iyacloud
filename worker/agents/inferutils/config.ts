@@ -120,64 +120,71 @@ const PLATFORM_AGENT_CONFIG: AgentConfig = {
 // Default Gemini-only config (most likely used in your deployment)
 //======================================================================================
 /* These are the default out-of-the box gemini-only models used when PLATFORM_MODEL_PROVIDERS is not set */
+// IYA Cloud: single-model deployment. Every agent role runs on Kimi K2.7 Code
+// via Cloudflare Workers AI (routed through the AI Gateway /compat endpoint).
+// No external model provider keys are required.
+const KIMI = AIModels.KIMI_K2_7_CODE;
 const DEFAULT_AGENT_CONFIG: AgentConfig = {
     ...COMMON_AGENT_CONFIGS,
     templateSelection: {
-        name: AIModels.GEMINI_2_5_FLASH_LITE,
+        name: KIMI,
         max_tokens: 2000,
-        fallbackModel: AIModels.GEMINI_2_5_FLASH,
+        fallbackModel: KIMI,
         temperature: 0.6,
     },
     blueprint: {
-        name: AIModels.GEMINI_3_FLASH_PREVIEW,
-        reasoning_effort: 'high',
+        name: KIMI,
         max_tokens: 64000,
-        fallbackModel: AIModels.GEMINI_2_5_PRO,
+        fallbackModel: KIMI,
         temperature: 1,
     },
     projectSetup: {
-        name: AIModels.GEMINI_3_FLASH_PREVIEW,
-        ...SHARED_IMPLEMENTATION_CONFIG,
+        name: KIMI,
+        max_tokens: 48000,
+        temperature: 1,
+        fallbackModel: KIMI,
     },
     phaseGeneration: {
-        name: AIModels.GEMINI_3_FLASH_PREVIEW,
-        ...SHARED_IMPLEMENTATION_CONFIG,
+        name: KIMI,
+        max_tokens: 48000,
+        temperature: 1,
+        fallbackModel: KIMI,
     },
     firstPhaseImplementation: {
-        name: AIModels.GEMINI_3_FLASH_PREVIEW,
-        ...SHARED_IMPLEMENTATION_CONFIG,
+        name: KIMI,
+        max_tokens: 48000,
+        temperature: 1,
+        fallbackModel: KIMI,
     },
     phaseImplementation: {
-        name: AIModels.GEMINI_3_FLASH_PREVIEW,
-        ...SHARED_IMPLEMENTATION_CONFIG,
+        name: KIMI,
+        max_tokens: 48000,
+        temperature: 1,
+        fallbackModel: KIMI,
     },
     conversationalResponse: {
-        name: AIModels.GEMINI_2_5_FLASH,
-        reasoning_effort: 'low',
+        name: KIMI,
         max_tokens: 4000,
         temperature: 0,
-        fallbackModel: AIModels.GEMINI_2_5_PRO,
+        fallbackModel: KIMI,
     },
     deepDebugger: {
-        name: AIModels.GEMINI_3_FLASH_PREVIEW,
-        reasoning_effort: 'high',
+        name: KIMI,
         max_tokens: 8000,
         temperature: 1,
-        fallbackModel: AIModels.GEMINI_2_5_FLASH,
+        fallbackModel: KIMI,
     },
     fileRegeneration: {
-        name: AIModels.GEMINI_3_FLASH_PREVIEW,
-        reasoning_effort: 'low',
+        name: KIMI,
         max_tokens: 32000,
         temperature: 1,
-        fallbackModel: AIModels.GEMINI_2_5_FLASH,
+        fallbackModel: KIMI,
     },
     agenticProjectBuilder: {
-        name: AIModels.GEMINI_3_FLASH_PREVIEW,
-        reasoning_effort: 'high',
+        name: KIMI,
         max_tokens: 8000,
         temperature: 1,
-        fallbackModel: AIModels.GEMINI_2_5_FLASH,
+        fallbackModel: KIMI,
     },
 };
 

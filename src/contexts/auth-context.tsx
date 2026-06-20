@@ -63,7 +63,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useSentryUser(user);
   
   // Ref to store the refresh timer
-  const refreshTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const refreshTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Redirect URL management
   const INTENDED_URL_KEY = 'auth_intended_url';

@@ -74,11 +74,11 @@ function getReturnExpression(fn: t.ArrowFunctionExpression | t.FunctionExpressio
 	return null;
 }
 
-function isUseLikeHookCallee(callee: t.Expression | t.V8IntrinsicIdentifier): callee is t.Identifier {
+function isUseLikeHookCallee(callee: t.CallExpression['callee']): callee is t.Identifier {
 	return t.isIdentifier(callee) && callee.name.startsWith('use');
 }
 
-function isUseEffectCallee(callee: t.Expression | t.V8IntrinsicIdentifier): boolean {
+function isUseEffectCallee(callee: t.CallExpression['callee']): boolean {
 	if (t.isIdentifier(callee) && callee.name === 'useEffect') return true;
 	if (t.isMemberExpression(callee) && t.isIdentifier(callee.property) && callee.property.name === 'useEffect') return true;
 	return false;

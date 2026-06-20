@@ -47,9 +47,9 @@ export const PreviewIframe = forwardRef<HTMLIFrameElement, PreviewIframeProps>(
 			errorMessage: null,
 		});
 
-		const retryTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+		const retryTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 		const hasRequestedRedeployRef = useRef(false);
-        const postLoadTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+        const postLoadTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 		// ====================================================================
 		// Core Loading Logic
 		// ====================================================================

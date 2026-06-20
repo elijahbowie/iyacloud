@@ -11,7 +11,11 @@
  */
 
 import { DurableObject } from 'cloudflare:workers';
-import type { DurableObjectState, SqlStorageValue } from '@cloudflare/workers-types';
+// `DurableObjectState` is used as the ambient/global type so it matches the
+// `DurableObject` base from `cloudflare:workers` (importing it from
+// `@cloudflare/workers-types` yields a distinct type and a TS2589/assignability
+// error). Same pattern as DORateLimitStore.
+import type { SqlStorageValue } from '@cloudflare/workers-types';
 import {
 	type VaultConfig,
 	type VaultStatusResponse,

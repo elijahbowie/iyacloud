@@ -191,7 +191,7 @@ export function createDebouncedValidator<T>(
   validator: (value: T) => { valid: boolean; error?: string },
   delay: number = 500
 ) {
-  let timeoutId: NodeJS.Timeout;
+  let timeoutId: ReturnType<typeof setTimeout>;
   
   return (value: T, callback: (result: { valid: boolean; error?: string }) => void) => {
     clearTimeout(timeoutId);

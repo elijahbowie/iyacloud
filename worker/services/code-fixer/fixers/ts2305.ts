@@ -258,8 +258,7 @@ function createComponentExport(exportName: string, props: string[], stubComment:
                     false
                 ),
                 t.jsxClosingElement(t.jsxIdentifier('div')),
-                [t.jsxText(`${stubComment} - Component: ${exportName}`)],
-                false
+                [t.jsxText(`${stubComment} - Component: ${exportName}`)]
             )
         )
     ]);

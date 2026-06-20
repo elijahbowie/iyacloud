@@ -3,7 +3,7 @@ import { setupAppRoutes } from './appRoutes';
 import { setupUserRoutes } from './userRoutes';
 import { setupStatsRoutes } from './statsRoutes';
 import { setupAnalyticsRoutes } from './analyticsRoutes';
-// import { setupUserSecretsRoutes } from './userSecretsRoutes';
+import { setupUserSecretsRoutes } from './userSecretsRoutes';
 import { setupModelConfigRoutes } from './modelConfigRoutes';
 import { setupModelProviderRoutes } from './modelProviderRoutes';
 import { setupGitHubExporterRoutes } from './githubExporterRoutes';
@@ -62,8 +62,8 @@ export function setupRoutes(app: Hono<AppEnv>): void {
     // // Secrets management routes (legacy D1-based)
     // setupSecretsRoutes(app);
 
-    // // User secrets vault routes
-    // setupUserSecretsRoutes(app);
+    // User secrets vault routes (/api/vault/*)
+    setupUserSecretsRoutes(app);
     
     // Model configuration and provider keys routes
     setupModelConfigRoutes(app);

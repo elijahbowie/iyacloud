@@ -17,6 +17,7 @@ import { selectSystemPrompt, PROMPT_MAX_STEPS } from './prompts';
 import { createThinkSkillSource } from './skills';
 import { createBrowserConsoleLogsTool } from './browser-logs-tool';
 import { createDeploySpaceTool } from './deploy-tool';
+import { createSandboxTools } from './sandbox-tools';
 
 /**
  * Per-instance configuration pushed into a {@link ThinkAgent} by the host
@@ -303,6 +304,12 @@ export class ThinkAgent extends Think<Env> {
 			get_browser_console_logs: createBrowserConsoleLogsTool({
 				env: this.env,
 				defaultUrl: previewUrl,
+			}),
+			// Tier-4: full Linux sandbox container (run real toolchains).
+			...createSandboxTools({
+				env: this.env as unknown as { Sandbox: DurableObjectNamespace },
+				getStub: () => this.getSpaceStub(),
+				getAgentId: () => this.name,
 			}),
 		} as unknown as ToolSet;
 	}

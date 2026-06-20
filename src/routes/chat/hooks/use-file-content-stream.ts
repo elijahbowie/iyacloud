@@ -10,7 +10,7 @@ export function useFileContentStream(
 ) {
 	const [streamedFiles, setStreamedFiles] = useState<FileType[]>([]);
 	const [doneStreaming, setDoneStreaming] = useState(false);
-	const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
+	const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 	const currentFileRef = useRef<number>(0);
 	const currentPositionRef = useRef<number>(0);
 

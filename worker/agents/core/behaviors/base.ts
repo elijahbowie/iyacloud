@@ -591,6 +591,15 @@ export abstract class BaseCodingBehavior<TState extends BaseProjectState>
     }
 
     async fetchRuntimeErrors(clear: boolean = true, shouldWait: boolean = true): Promise<RuntimeError[]> {
+        // Behaviors without a `@cloudflare/sandbox` container (e.g. `think`,
+        // which previews via SpaceDO) have no container to query for runtime
+        // errors here — they surface client-side errors through
+        // `get_browser_console_logs` instead. Return early so we don't throw
+        // and trigger a needless redeploy on every review cycle.
+        if (!this.state.sandboxInstanceId) {
+            return [];
+        }
+
         if (shouldWait) {
             await this.deploymentManager.waitForPreview();
         }
@@ -627,11 +636,15 @@ export abstract class BaseCodingBehavior<TState extends BaseProjectState>
                 return this.staticAnalysisCache;
             }
 
-            // Use in-memory analysis for browser-rendered projects (no sandbox)
+            // Use in-memory analysis for browser-rendered projects and for any
+            // behavior without a live sandbox instance (e.g. the `think`
+            // behavior previews via SpaceDO/WorkerLoader and never allocates a
+            // `@cloudflare/sandbox` container, so the container-backed static
+            // analysis would throw "No sandbox instance available").
             const templateDetails = this.getTemplateDetails();
             let analysisResponse: StaticAnalysisResponse;
 
-            if (templateDetails?.renderMode === 'browser') {
+            if (templateDetails?.renderMode === 'browser' || !this.state.sandboxInstanceId) {
                 analysisResponse = await this.runInMemoryAnalysis(files);
             } else {
                 analysisResponse = await this.deploymentManager.runStaticAnalysis(files);

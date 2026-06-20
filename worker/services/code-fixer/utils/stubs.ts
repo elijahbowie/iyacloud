@@ -177,8 +177,7 @@ function generateJSXComponentExport(usage: ImportUsage): t.Statement {
                     false
                 ),
                 t.jsxClosingElement(t.jsxIdentifier('div')),
-                [t.jsxText(`Placeholder ${componentName} component`)],
-                false
+                [t.jsxText(`Placeholder ${componentName} component`)]
             )
         )
     ]);
@@ -273,8 +272,7 @@ function generateGenericExport(name: string, isDefault: boolean, shouldUseJSX: b
             t.jsxElement(
                 t.jsxOpeningElement(t.jsxIdentifier('div'), [], false),
                 t.jsxClosingElement(t.jsxIdentifier('div')),
-                [t.jsxText(`Placeholder ${name} component`)],
-                false
+                [t.jsxText(`Placeholder ${name} component`)]
             )
         );
         componentFunc.returnType = t.tsTypeAnnotation(

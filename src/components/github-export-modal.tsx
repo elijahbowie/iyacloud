@@ -1,9 +1,9 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-    X, 
-    Github, 
-    Lock, 
+    X,
+    GitBranch,
+    Lock,
     Globe, 
     Upload, 
     CheckCircle, 
@@ -78,7 +78,7 @@ const ModalHeader: React.FC<{ mode: string; existingUrl?: string | null; onClose
     <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
             <div className="p-2 bg-bg-2 rounded-lg">
-                <Github className="w-5 h-5 text-text-secondary" />
+                <GitBranch className="w-5 h-5 text-text-secondary" />
             </div>
             <div>
                 <h2 className="text-lg font-semibold text-text-secondary">
@@ -347,7 +347,7 @@ export function GitHubExportModal({
                                     rel="noopener noreferrer"
                                     className={`inline-flex items-center gap-2 ${BUTTON_STYLES.secondary}`}
                                 >
-                                    <Github className="w-4 h-4" />
+                                    <GitBranch className="w-4 h-4" />
                                     View Repository
                                 </a>
                             </StatusMessage>
@@ -507,7 +507,7 @@ export function GitHubExportModal({
                                         rel="noopener noreferrer"
                                         className="text-xs text-text-primary/60 hover:text-brand transition-colors break-all flex items-center gap-1"
                                     >
-                                        <Github className="w-3 h-3 flex-shrink-0" />
+                                        <GitBranch className="w-3 h-3 flex-shrink-0" />
                                         {existingGithubUrl}
                                     </a>
 

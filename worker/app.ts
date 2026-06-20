@@ -100,6 +100,12 @@ export function createApp(env: Env): Hono<AppEnv> {
     // Wrap the ASSETS response in a new Response with mutable headers so
     // downstream middleware (e.g. secureHeaders) can safely modify them.
     app.notFound(async (c) => {
+        // API routes must never fall back to the SPA shell: returning index.html
+        // for an unmatched /api/* path makes clients fail with "Unexpected token
+        // '<'" when they try to parse the HTML as JSON. Return a real JSON 404.
+        if (new URL(c.req.url).pathname.startsWith('/api/')) {
+            return c.json({ success: false, error: { message: 'Not found', type: 'NOT_FOUND' } }, 404);
+        }
         const res = await c.env.ASSETS.fetch(c.req.raw);
         return new Response(res.body, {
             status: res.status,

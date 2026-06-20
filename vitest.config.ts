@@ -1,8 +1,21 @@
-import { defineWorkersConfig } from '@cloudflare/vitest-pool-workers/config';
+import { cloudflareTest } from '@cloudflare/vitest-pool-workers';
+import { defineConfig } from 'vitest/config';
 
 const runIntegrationTests = process.env.VIBESDK_RUN_INTEGRATION_TESTS === '1';
 
-export default defineWorkersConfig({
+export default defineConfig({
+  // vitest-pool-workers 0.16 (vitest 4): the workers pool config moved from
+  // `test.poolOptions.workers` into the `cloudflareTest()` plugin.
+  plugins: [
+    cloudflareTest({
+      main: './test/worker-entry.ts',
+      wrangler: { configPath: './wrangler.test.jsonc' },
+      miniflare: {
+        compatibilityDate: '2024-12-12',
+        compatibilityFlags: ['nodejs_compat'],
+      },
+    }),
+  ],
   resolve: {
     alias: {
       'bun:test': 'vitest',
@@ -21,16 +34,6 @@ export default defineWorkersConfig({
             '@babel/traverse',
             '@babel/types',
           ],
-        },
-      },
-    },
-    poolOptions: {
-      workers: {
-        main: './test/worker-entry.ts',
-        wrangler: { configPath: './wrangler.test.jsonc' },
-        miniflare: {
-          compatibilityDate: '2024-12-12',
-          compatibilityFlags: ['nodejs_compat'],
         },
       },
     },

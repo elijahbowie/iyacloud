@@ -36,7 +36,9 @@ export function adaptController<T extends BaseController>(
             controller,
             c.req.raw,
             c.env,
-            c.executionCtx,
+            // Hono's `executionCtx` and the ambient `ExecutionContext` diverged
+            // after the workers-types bump (now generic, `ExecutionContext<unknown>`).
+            c.executionCtx as ExecutionContext,
             routeContext
         );
     };
