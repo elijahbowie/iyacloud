@@ -1,5 +1,6 @@
 import { cloudflareTest } from '@cloudflare/vitest-pool-workers';
 import { defineConfig } from 'vitest/config';
+import path from 'path';
 
 const runIntegrationTests = process.env.VIBESDK_RUN_INTEGRATION_TESTS === '1';
 
@@ -17,23 +18,29 @@ export default defineConfig({
     }),
   ],
   resolve: {
-    alias: {
-      'bun:test': 'vitest',
-    },
+    // Path aliases must be declared explicitly here (mirroring vite.config.ts):
+    // TS6 dropped `baseUrl`, so the worker pool no longer resolves the
+    // `shared/*` and `worker/*` tsconfig paths on its own.
+    alias: [
+      { find: 'bun:test', replacement: 'vitest' },
+      { find: '@', replacement: path.resolve(__dirname, './src') },
+      { find: 'shared', replacement: path.resolve(__dirname, './shared') },
+      { find: 'worker', replacement: path.resolve(__dirname, './worker') },
+    ],
   },
   test: {
     globals: true,
     pool: '@cloudflare/vitest-pool-workers',
+    // Pre-bundle CJS/dual-package deps that the workerd module loader can't
+    // resolve at runtime (e.g. `debug`'s ./common subpath). `@cloudflare/sandbox`
+    // and `@cloudflare/containers` are intentionally NOT bundled — they import
+    // `node:path/posix`, which rolldown can't bundle but nodejs_compat resolves
+    // when the package is externalized and loaded in-worker.
     deps: {
       optimizer: {
         ssr: {
           enabled: true,
-          include: [
-            '@cloudflare/containers',
-            '@cloudflare/sandbox',
-            '@babel/traverse',
-            '@babel/types',
-          ],
+          include: ['debug', '@babel/traverse', '@babel/types'],
         },
       },
     },

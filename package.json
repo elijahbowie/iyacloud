@@ -187,6 +187,11 @@
 	},
 	"overrides": {
 		"vite": "npm:rolldown-vite@latest",
-		"@cloudflare/containers": "^0.3.7"
+		"@cloudflare/containers": "^0.3.7",
+		"@vitest/runner": "^4.1.9",
+		"@vitest/snapshot": "^4.1.9",
+		"@vitest/utils": "^4.1.9",
+		"@vitest/expect": "^4.1.9",
+		"@vitest/spy": "^4.1.9"
 	}
 }
